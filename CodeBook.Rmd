@@ -1,0 +1,71 @@
+---
+output: html_document
+---
+
+---
+title: "CodeBook"
+
+author: "TLB"
+
+date: "19/11/2021"
+---
+
+
+After importing the UCI HAR Dataset from <https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip>
+[link](www.rstudio.com) :
+
+#### Step 1: Load all necessary files
+
+Using the `read.table` function, load the following UCI HAR Dataset files:
+
+1. features.txt
+
+2. activity_labels.txt
+
+3. test/X_test.txt
+
+4. test/y_test.txt
+
+5. test/subject_test.txt
+
+6. train/X_train.txt
+
+7. train/y_train.txt
+
+8. train/subject_train.txt
+
+#### Step 2: Merges the training and the test sets to create one data set.
+
+Using `rbind` function, merge the following "training" and "test" data sets:
+
+1. x_train and x_test,
+
+2. y_train and y_test,
+
+3. subject_train and subject_test
+
+Finally, merge the above 3 data sets using `cbind` function.
+
+#### Step 3: Extract only the measurements on the mean and standard deviation for each measurement
+
+Using following function:
+
+`[,grep("subject|number|std|mean", colnames("full_data_combined"name"))]`
+
+#### Step 4: Use descriptive activity names to name the activities in the data set
+
+Modify from numbers to names for activities using following function:
+
+`"name1"$number <- activities["name2"$number, 2]`
+
+#### Step 5: Appropriately label the data set with descriptive variable names (from abbreviations to understandable names)
+
+Using the following function for, as an example, "tbody" to "Time Body":
+
+`names(mean_std_data)<-gsub("tbody", "Time Body", names(mean_std_data), ignore.case = TRUE)`
+
+#### Step 6: From the data set in Step 5, create a second, independent tidy data set: **CleanDataset**, with the average of each variable for each activity and each subject.
+
+`clean_data <- mean_std_data %>% group_by(Subject, Activity Performed) %>% summarise_all(funs(mean))`
+
+`write.table(clean_data, "CleanDataSet.txt", row.name=FALSE)`
